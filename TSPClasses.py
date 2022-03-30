@@ -93,7 +93,6 @@ class Scenario:
 	def getCities( self ):
 		return self._cities
 
-
 	def randperm( self, n ):				#isn't there a numpy function that does this and even gets called in Solver?
 		perm = np.arange(n)
 		for i in range(n):
@@ -117,7 +116,7 @@ class Scenario:
 		for i in range(ncities):
 			can_delete[route_keep[i],route_keep[(i+1)%ncities]] = False
 
-		# Now remove edges until 
+		# Now remove edges until
 		while num_to_remove > 0:
 			if deterministic:
 				src = random.randint(0,ncities-1)
@@ -176,4 +175,22 @@ class City:
 
 
 		return int(math.ceil(cost * self.MAP_SCALE))
+
+class State:
+	def __init__(self, bound=0, graph=None, citiesIndex=None, pathSoFar=None, depth=0):
+		if pathSoFar == None:
+			self.pathSoFar = []
+		else:
+			self.pathSoFar = list(pathSoFar)
+
+		self.bound = bound
+		self.graph = np.array(graph)
+		self.citiesIndex = int(citiesIndex)
+		self.depth = int(depth)
+
+	def __lt__(self, other):
+		return self.bound<other.bound
+
+
+
 
