@@ -247,6 +247,9 @@ class TSPSolver:
 			while not pq.empty():
 				# Iterate while within time constraint
 				if time.time() - start_time > time_allowance:
+					while not pq.empty():
+						if pq.get()[1].bound >= bssf:
+							prunedStates += 1
 					break
 
 				# Get/remove highest-priority (lowest-bound) state from the PQ -> (key, State)
@@ -327,7 +330,7 @@ class TSPSolver:
 
 		results['cost'] = bssf
 		results['time'] = end_time - start_time
-		results['count'] = len(solutionDict)
+		results['count'] = len(solutionDict) - 1
 		results['soln'] = solutionDict[bssf]
 		results['max'] = maxQueueSize
 		results['total'] = totalStates
